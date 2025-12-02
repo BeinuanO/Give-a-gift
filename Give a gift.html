@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>礼物惊喜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd1e8 100%);
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fa3);
+            border-radius: 20px;
+            margin: 0 auto 30px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(255, 107, 157, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+        }
+
+        .gift-box:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 107, 157, 0.4);
+        }
+
+        .gift-box:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .description {
+            color: #c73e7f;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .accept-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fa3);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .accept-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .accept-btn:hover:before {
+            left: 100%;
+        }
+
+        .accept-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 157, 0.4);
+        }
+
+        .accept-btn:active {
+            transform: scale(0.95);
+        }
+
+        .message {
+            position: fixed;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: messageSlide 0.5s ease;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fa3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 107, 157, 0.6);
+            font-size: 20px;
+            animation: floatUp 4s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(720deg);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+            animation: sparkleAnim 1.5s linear infinite;
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            margin-top: 30px;
+            font-size: 1.4em;
+            color: #d63384;
+            font-weight: bold;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 添加装饰性元素 */
+        .decoration {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 装饰性背景元素 -->
+    <div class="decoration" style="top: 10%; left: 10%;"></div>
+    <div class="decoration" style="top: 20%; right: 15%;"></div>
+    <div class="decoration" style="bottom: 15%; left: 20%;"></div>
+    <div class="decoration" style="bottom: 25%; right: 10%;"></div>
+
+    <!-- 飘动的爱心背景 -->
+    <div class="hearts" id="heartsContainer"></div>
+
+    <div class="container">
+        <div class="gift-box" id="giftBox">🎁</div>
+        
+        <h1>特别礼物送达</h1>
+        
+        <p class="description">
+            有一份神秘的礼物正在等待你的接收<br>
+            点击下面的按钮，开启美好的惊喜时刻！
+        </p>
+        
+        <button class="accept-btn" id="acceptBtn" onclick="acceptGift()">
+            接受礼物 ✨
+        </button>
+        
+        <div class="success-message hidden" id="successMessage">
+            🎉 礼物已成功接收！幸福满满！🎉
+        </div>
+    </div>
+
+    <script>
+        // 提示词数组
+        const messages = [
+            "💕 你是世界上最可爱的人！",
+            "🌸 今天也要开心满满哦！",
+            "💖 幸福正在向你靠近！",
+            "🎀 你值得所有的美好！",
+            "✨ 今天的你格外迷人！",
+            "🌺 生活因你而精彩！",
+            "💝 爱与美好永远陪伴你！",
+            "🌷 你的笑容像花儿一样美！",
+            "💗 愿你的每一天都充满阳光！",
+            "🦄 你就是独一无二的存在！",
+            "🌈 彩虹为你而绚烂！",
+            "💘 甜甜的运气正在路上！",
+            "🌸 春天因你而更加美丽！",
+            "✨ 星星都在为你闪烁！",
+            "🌹 你就是最美的风景！",
+            "💞 温柔如你，世间难得！",
+            "🌙 月亮都为你弯腰微笑！",
+            "🍓 今天也是甜甜的一天！",
+            "💕 你的善良照亮了世界！",
+            "🌼 向日葵都为你绽放！"
+        ];
+
+        let messageIndex = 0;
+        let canShowMessage = false;
+
+        // 创建飘动的爱心
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 4 + 's';
+                    heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                    container.appendChild(heart);
+                    
+                    // 4秒后移除爱心
+                    setTimeout(() => {
+                        if (heart.parentNode) {
+                            heart.parentNode.removeChild(heart);
+                        }
+                    }, 4000);
+                }, i * 300);
+            }
+        }
+
+        // 创建闪光效果
+        function createSparkles(x, y) {
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                const angle = (i * 45) * Math.PI / 180;
+                const distance = 30;
+                sparkle.style.left = x + Math.cos(angle) * distance + 'px';
+                sparkle.style.top = y + Math.sin(angle) * distance + 'px';
+                sparkle.style.animationDelay = i * 0.1 + 's';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    if (sparkle.parentNode) {
+                        sparkle.parentNode.removeChild(sparkle);
+                    }
+                }, 1500);
+            }
+        }
+
+        // 显示消息
+        function showMessage(text) {
+            if (!canShowMessage) return;
+            
+            const message = document.createElement('div');
+            message.className = 'message';
+            message.textContent = text;
+            
+            // 随机位置（避免太靠边）
+            const x = Math.random() * (window.innerWidth - 300) + 50;
+            const y = Math.random() * (window.innerHeight - 200) + 50;
+            
+            message.style.left = x + 'px';
+            message.style.top = y + 'px';
+            
+            document.body.appendChild(message);
+            
+            // 创建闪光效果
+            createSparkles(x + 100, y + 25);
+            
+            // 3秒后移除消息
+            setTimeout(() => {
+                message.style.animation = 'messageSlide 0.5s ease reverse';
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.parentNode.removeChild(message);
+                    }
+                }, 500);
+            }, 3000);
+        }
+
+        // 批量显示消息
+        function showMessages() {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const msg = messages[messageIndex % messages.length];
+                    showMessage(msg);
+                    messageIndex++;
+                }, i * 400);
+            }
+            
+            // 继续显示更多消息
+            setTimeout(() => {
+                for (let i = 0; i < 6; i++) {
+                    setTimeout(() => {
+                        const msg = messages[messageIndex % messages.length];
+                        showMessage(msg);
+                        messageIndex++;
+                    }, i * 500);
+                }
+            }, 3200);
+        }
+
+        // 接受礼物
+        function acceptGift() {
+            const btn = document.getElementById('acceptBtn');
+            const successMsg = document.getElementById('successMessage');
+            const giftBox = document.getElementById('giftBox');
+            
+            // 按钮动画
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 200);
+            
+            // 礼物盒打开动画
+            giftBox.innerHTML = '🎉';
+            giftBox.style.animation = 'bounce 0.6s ease';
+            
+            // 隐藏按钮，显示成功消息
+            btn.classList.add('hidden');
+            successMsg.classList.remove('hidden');
+            
+            // 开始显示消息
+            canShowMessage = true;
+            showMessages();
+            
+            // 创建更多爱心
+            createHearts();
+            
+            // 定期创建新爱心
+            setInterval(createHearts, 5000);
+            
+            // 持续显示消息（每10秒显示一批）
+            setInterval(showMessages, 10000);
+        }
+
+        // 页面加载时创建一些初始爱心
+        window.addEventListener('load', () => {
+            createHearts();
+            setTimeout(createHearts, 2000);
+        });
+
+        // 鼠标移动效果
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.98) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    if (sparkle.parentNode) {
+                        sparkle.parentNode.removeChild(sparkle);
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
